@@ -84,7 +84,8 @@ def main():
         while b.state() == "stopped":
             if not stopped_state:
                 timestr = time.strftime("%Y%m%d-%H%M%S")
-                obj = {'timestamp': timestr, 'score': formatStr}
+                score = abs(float(formatStr)-10)
+                obj = {'timestamp': timestr, 'time': formatStr, 'score':score}
                 cam = webcam()
                 cam.capture(base_filename=timestr)
                 db.insert(obj)
