@@ -11,8 +11,8 @@ services:
     environment:
       - "TZ=America/Chicago"
     volumes:
-      - "../data/images/:/app/images/"
-      - "../data/scores.json:/app/scores.json"
+      - "/home/pi/ceo-game/data/images/:/app/images/"
+      - "/home/pi/ceo-game/data/scores.json:/app/scores.json"
       - /sys:/sys
     devices:
       - /dev/video0:/dev/video0

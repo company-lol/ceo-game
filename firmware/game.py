@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
 import time 
 import led
 import cv2
+import requests
 from tinydb import TinyDB, Query
 
 #GPIO.setwarnings(False) # Ignore warning for now
@@ -86,6 +87,10 @@ def main():
                 timestr = time.strftime("%Y%m%d-%H%M%S")
                 score = abs(float(formatStr)-10)
                 obj = {'timestamp': timestr, 'time': formatStr, 'score':score}
+                try:
+                    r = requests.post('https://192.168.120.92:3000/game-end', data = obj)
+                except:
+                    print("dashboard down?")
                 cam = webcam()
                 cam.capture(base_filename=timestr)
                 db.insert(obj)
