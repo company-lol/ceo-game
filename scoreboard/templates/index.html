@@ -1,0 +1,122 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>CEO Game</title>
+    <link href="https://fonts.googleapis.com/css?family=Audiowide|Luckiest+Guy|Monoton|Rubik+Mono+One|Russo+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/segment7" type="text/css"/>
+    <!-- Bootstrap core CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <style>
+    body {
+    background-image: url("Sneezy-Stuffy-Kitty-3.jpg");
+    background-repeat: repeat;
+        
+    }
+    .scoreboard {
+        padding: 3rem 1.5rem;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.1);
+        width: 100%;
+        color: #fff;
+    }
+    .table{
+        background:rgba(255, 255, 255, 0.2);
+        color: #fff;
+    }
+    h1{
+        font-family: 'Audiowide', cursive;
+    }
+    .segment { 
+   font-family: 'Segment7Standard'; 
+   font-weight: normal; 
+   font-style: italic; 
+   font-size: 40px;
+}
+.rank{
+    font-size: 40px
+}
+
+.gif img{
+    width: 50px;
+}
+    </style>
+</head>
+  <body>
+   
+
+<main role="main" class="container">
+
+  <div class="scoreboard">
+    <h1>CEO Game</h1>
+    <p class="lead"><b>Can you get 10.0000. If you can, you become CEO! </b></p>
+    
+  </div>
+  <div>
+      
+    <table class="table table-sm table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Rank</th>
+            <th scope="col">Date</th>
+            <th scope="col">Photo</th>
+            <th scope="col">Score</th>
+          </tr>
+        </thead>
+        <tbody id="scores">
+        </tbody>
+      </table>
+</div>
+
+</main><!-- /.container -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script src='gifshot.js'></script>
+<script src="moment.js"></script>
+
+<script>
+    $(function () {
+        moment().format();
+      var socket = io();
+      socket.on('scores', function(scores){
+        console.log(scores)
+        i = 1;
+        scores.forEach(score => {
+        
+            date = score['timestamp']
+            date = moment(Date.parse(date.substring(0, 4) + "-" + date.substring(4,6) +"-"+   date.substring(6,8) +" "+ date.substring(4,6)  + ":"+ date.substring(9, date.length-4)));
+            console.log(moment(date))
+            sc_html = $('<tr><th scope="row" class="rank">'+i+'</th><td>'+date.fromNow()+'</td><td class="gif" id="gif_'+score['timestamp']+'"></td><td class="segment">'+parseFloat(score['time'])+'</td></tr>')
+            
+            $("#scores").append(sc_html)
+            i++;
+
+
+            gifshot.createGIF({
+                'images': [
+                    { src:'/images/'+score['timestamp']+'_0.png', text:'0' },
+                    { src:'/images/'+score['timestamp']+'_1.png', text:'1' },
+                    { src:'/images/'+score['timestamp']+'_2.png', text:'2' },
+                    { src:'/images/'+score['timestamp']+'_3.png', text:'3' },
+                    { src:'/images/'+score['timestamp']+'_4.png', text:'4' },
+                ]
+                },function(obj) {
+                if(!obj.error) {
+                    var image = obj.image,
+                    animatedImage = document.createElement('img');
+                    animatedImage.src = image;
+                    console.log(animatedImage)
+                    $('#gif_'+score['timestamp']).append(animatedImage)
+                    //document.body.appendChild(animatedImage);
+                }
+            });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
