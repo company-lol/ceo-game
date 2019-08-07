@@ -1,0 +1,22 @@
+version: '2'
+services:
+  ceo-game-firmware:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ceo-game-firmware
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - "TZ=America/Chicago"
+    volumes:
+      - "../data/images/:/app/images/"
+      - "../data/scores.json:/app/scores.json"
+      - /sys:/sys
+    devices:
+      - /dev/video0:/dev/video0
+      - /dev/gpiochip0:/dev/gpiochip0
+      - /dev/gpiochip1:/dev/gpiochip1
+      - /dev/gpiomem:/dev/gpiomem
+    restart: unless-stopped
