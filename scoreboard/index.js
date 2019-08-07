@@ -2,6 +2,9 @@ var express = require('express');
 var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
+var bodyParser = require('body-parser');
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 var scores = {}
 
@@ -26,15 +29,13 @@ let grab_scores = function(){
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/templates/index.html');
-
 });
 
 
-app.get('/game-end', function(req, res){
+app.post('/game-end', function(req, res){
   grab_scores()
   io.emit("recent_time",req.body.time)
-  req.body.time
-  
+  res.end()
 });
 
 

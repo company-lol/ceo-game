@@ -43,6 +43,10 @@
 .gif img{
     width: 50px;
 }
+
+#score{
+    display: hidden;
+}
     </style>
 </head>
   <body>
@@ -53,7 +57,7 @@
   <div class="scoreboard">
     <h1>CEO Game</h1>
     <p class="lead"><b>Can you get 10.0000. If you can, you become CEO! </b></p>
-    
+    <h1 id="score">Last game: <span id="recent_score">10:00</span></h1>
   </div>
   <div>
       
@@ -82,6 +86,14 @@
     $(function () {
         moment().format();
       var socket = io();
+
+      socket.on('recent_time', function(time){
+          console.log(time)
+
+        $("#recent_score").text(time)
+        $("#score").show()
+        $('#score').fadeOut(3000);
+      });
       socket.on('scores', function(scores){
         console.log(scores)
         i = 1;
