@@ -32,6 +32,8 @@ app.get('/', function(req, res){
 
 app.get('/game-end', function(req, res){
   grab_scores()
+  io.emit("recent_time",req.body.time)
+  req.body.time
   
 });
 
