@@ -85,6 +85,7 @@
       socket.on('scores', function(scores){
         console.log(scores)
         i = 1;
+        $("#scores").html("")
         scores.forEach(score => {
         
             date = score['timestamp']
