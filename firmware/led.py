@@ -30,7 +30,7 @@ def exit_handler(s, f):
     clear()
     sys.exit(0)
 
-#atexit.register(exit_handler)
+atexit.register(exit_handler)
 # atexit._exithandlers.push(exit_handler)
 # signal.signal(signal.SIGINT, exit_handler)
 

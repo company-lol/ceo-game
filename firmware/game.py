@@ -14,7 +14,7 @@ class webcam:
         self.path = path
         pass
         
-    def capture(self, num_images = 5, base_filename="cam"):
+    def capture(self, num_images = 10, base_filename="cam"):
         camera = cv2.VideoCapture(0)
         
         for i in range(num_images):
@@ -23,8 +23,6 @@ class webcam:
             print(filename)
             cv2.imwrite(filename, image)
         del(camera)
-
-
 
 class button:
     states = ['ready','started','stopped']
@@ -53,8 +51,7 @@ class button:
 
 def main():
     led.clear()
-    cam = webcam()
-    cam.capture()
+
 
     db = TinyDB('./scores.json')
     
@@ -88,7 +85,7 @@ def main():
                 score = abs(float(formatStr)-10)
                 obj = {'timestamp': timestr, 'time': formatStr, 'score':score}
                 try:
-                    r = requests.post('https://192.168.120.92:3000/game-end', data = obj)
+                    r = requests.post('http://192.168.120.92:3000/game-end', data = obj)
                 except:
                     print("dashboard down?")
                 cam = webcam()
