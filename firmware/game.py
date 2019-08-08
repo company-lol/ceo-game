@@ -64,7 +64,7 @@ def main():
     while True:
         while b.state() =="ready":
             if not ready_state:
-                led.display("00.00000")
+                led.display("00.0000")
                 
                 ready_state = True
                 stopped_state = False
@@ -76,12 +76,12 @@ def main():
             float_elapsed = float(elapsed)
             (left,right)= str(float_elapsed).split(".")
             left = left.rjust(2,"0")
-            right= right[:5]
+            right= right[:4]
             formatStr = left + "." + right
             led.display(formatStr)
         while b.state() == "stopped":
             if not stopped_state:
-                timestr = time.strftime("%Y%m%d-%H%M%S")
+                timestr = time.gmtime() #strftime("%Y%m%d-%H%M%S")
                 score = abs(float(formatStr)-10)
                 obj = {'timestamp': timestr, 'time': formatStr, 'score':score}
                 try:

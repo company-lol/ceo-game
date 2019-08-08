@@ -33,7 +33,7 @@ app.get('/', function(req, res){
 
 
 app.post('/game-end', function(req, res){
-  grab_scores()
+  
   console.log("Emit recent time: "+ req.body.time)
   io.emit("recent_time",req.body.time)
   res.end()
@@ -50,6 +50,10 @@ io.on('connection', function(socket){
   grab_scores()
   socket.on('disconnect', function(){
     
+  });
+
+  socket.on('refreshScores', function(msg){
+    grab_scores()
   });
 
 });

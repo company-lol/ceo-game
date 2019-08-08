@@ -92,7 +92,9 @@
 
         $("#recent_score").text(time)
         $("#score").show()
-        $('#score').fadeOut(3000);
+        $('#score').fadeOut(5000, function() {
+          socket.emit('refreshScores',"yes");
+        });
       });
       socket.on('scores', function(scores){
         console.log(scores)
@@ -117,6 +119,11 @@
                     { src:'/images/'+score['timestamp']+'_2.png', text:'2' },
                     { src:'/images/'+score['timestamp']+'_3.png', text:'3' },
                     { src:'/images/'+score['timestamp']+'_4.png', text:'4' },
+                    { src:'/images/'+score['timestamp']+'_4.png', text:'5' },
+                    { src:'/images/'+score['timestamp']+'_4.png', text:'6' },
+                    { src:'/images/'+score['timestamp']+'_4.png', text:'7' },
+                    { src:'/images/'+score['timestamp']+'_4.png', text:'8' },
+                    { src:'/images/'+score['timestamp']+'_4.png', text:'9' },
                 ]
                 },function(obj) {
                 if(!obj.error) {

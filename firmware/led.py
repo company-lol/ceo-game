@@ -13,7 +13,7 @@ GPIO.setmode(GPIO.BOARD)
 segmentClock=11
 segmentLatch=13
 segmentData=15
-digitDisplayNumber=7
+digitDisplayNumber=6
 
 GPIO.setup(segmentClock,GPIO.OUT)
 GPIO.setup(segmentData,GPIO.OUT)
