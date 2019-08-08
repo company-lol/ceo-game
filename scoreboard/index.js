@@ -13,15 +13,15 @@ let grab_scores = function(){
   scores = []
   let rawdata = fs.readFileSync('data/scores.json');
   scores_obj = JSON.parse(rawdata)["_default"];
-  console.log(scores_obj);
+  
   const keys = Object.keys(scores_obj)
-  console.log(keys)
+  
   keys.forEach(element => {
-    console.log(scores_obj[element])
+    
     scores.push(scores_obj[element])
   });
   scores.sort((a, b) => (a.score > b.score) ? 1 : -1)
-  console.log(scores)
+  
 
   io.emit("scores",scores)
 }
@@ -34,11 +34,10 @@ app.get('/', function(req, res){
 
 app.post('/game-end', function(req, res){
   grab_scores()
+  console.log("Emit recent time: "+ req.body.time)
   io.emit("recent_time",req.body.time)
   res.end()
 });
-
-
 
 
 app.use(express.static("static"))
@@ -47,14 +46,12 @@ app.use(express.static("data"))
 
 
 io.on('connection', function(socket){
-  console.log('a user connected');
+  
   grab_scores()
   socket.on('disconnect', function(){
-    console.log('user disconnected');
+    
   });
-  socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
-  });
+
 });
 
 
